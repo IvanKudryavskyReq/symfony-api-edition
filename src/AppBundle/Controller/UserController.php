@@ -140,7 +140,7 @@ class UserController extends BaseController
      */
     public function deleteAction()
     {
-            return $this->action("action.user.delete");
+        return $this->action("action.user.delete");
     }
 
     /**
@@ -183,5 +183,28 @@ class UserController extends BaseController
     public function resetPasswordAction()
     {
         return $this->action("action.user.reset_password");
+    }
+
+    /**
+     * @ApiDoc(
+     *     resource = true,
+     *     description = "Change password",
+     *     input = "AppBundle\Form\User\ChangePasswordType",
+     *     output = "User",
+     *     statusCodes = {
+     *         200 = "Returned when successful",
+     *         404 = "Returned when the entity is not found",
+     *         422 = "Unprocessable Entity"
+     *     },
+     *     section = "Users",
+     * )
+     *
+     * @Route(path="/users/{id}/change-password", methods={"PATCH"})
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function changePasswordAction()
+    {
+        return $this->action("action.user.change_password");
     }
 }

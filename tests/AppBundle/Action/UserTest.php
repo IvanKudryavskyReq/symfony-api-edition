@@ -2,6 +2,7 @@
 
 namespace Tests\AppBundle\Action\User;
 
+use AppBundle\DataFixtures\Demo\LoadAccessTokenData;
 use AppBundle\DataFixtures\Demo\LoadUserData;
 use AppBundle\DataFixtures\Test\LoadAnonymousTokenData;
 use AppBundle\Entity\User;
@@ -85,6 +86,37 @@ class UserTest extends RestCrudTestCase
         ];
 
         $this->getClient()->request(Request::METHOD_PATCH, $this->url.'/'.$confirmationToken.'/reset-password', $data, [], $this->headers);
+        static::assertEquals(200, $this->getClient()->getResponse()->getStatusCode());
+
+        static::assertPassword($user, '321');
+    }
+
+
+    public function testChangePassword()
+    {
+        $this->loadFixtures([
+            LoadAccessTokenData::class,
+            LoadUserData::class
+        ]);
+
+        /** @var User $user */
+        $user = $this->getObjectOf(User::class, ['email' => 'kirill@gmail.com']);
+
+        $this->getClient()->getContainer()->get('doctrine.orm.default_entity_manager')->flush();
+
+        $data = [
+            'currentPassword' => '123',
+            'plainPassword' => [
+                'first' => '321',
+                'second' => '321',
+            ],
+        ];
+
+        $headers = $this->headers;
+        $headers['HTTP_Authorization'] = 'Bearer AccessToken_For_Kirill';
+
+        $this->getClient()->request(Request::METHOD_PATCH, $this->url.'/'.$user->getId().'/change-password', $data, [], $headers);
+
         static::assertEquals(200, $this->getClient()->getResponse()->getStatusCode());
 
         static::assertPassword($user, '321');

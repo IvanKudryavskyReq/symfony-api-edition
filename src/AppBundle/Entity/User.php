@@ -13,7 +13,6 @@ use Requestum\ApiBundle\Rest\Metadata\Reference;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- * @ORM\EntityListeners({"AppBundle\EventListener\UserListener"})
  * @UniqueEntity("email")
  */
 class User implements UserInterface
@@ -55,14 +54,13 @@ class User implements UserInterface
 
     /**
      * @var string Encrypted password.
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      *
      */
     protected $password;
 
     /**
-     * @var string Encrypted password.
-     * @ORM\Column(type="string", nullable=true)
+     * @var string Plain password.
      * @Assert\NotBlank
      *
      */
@@ -190,7 +188,6 @@ class User implements UserInterface
     public function setPlainPassword($password)
     {
         $this->plainPassword = $password;
-        $this->password = null;
 
         return $this;
     }

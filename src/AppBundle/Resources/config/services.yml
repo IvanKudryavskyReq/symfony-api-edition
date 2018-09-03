@@ -3,12 +3,11 @@ imports:
   - { resource: voters/* }
 
 services:
-    user_listener:
+    app.user_listener:
         class: AppBundle\EventListener\UserListener
-        arguments:
-            - '@security.user_password_encoder.generic'
+        arguments: ['@app.service.user_manager']
         tags:
-            - { name: doctrine.orm.entity_listener }
+        - { name: kernel.event_listener, event: action.update_password.before_save_user, method: updatePassword }
 
     app.upload_listener:
         class: AppBundle\EventListener\UploadListener
@@ -19,3 +18,7 @@ services:
     app.service.reset_password:
         class: AppBundle\Service\ResetPassword\ResetPassword
         arguments: ["@doctrine.orm.entity_manager", "@requestum_email_sender", "%default_email_from%", "%reset_password_link_template%"]
+
+    app.service.user_manager:
+        class: AppBundle\Service\User\UserManager
+        arguments: ['@security.user_password_encoder.generic']

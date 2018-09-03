@@ -1,60 +1,37 @@
 <?php
-
 namespace AppBundle\EventListener;
-
 use AppBundle\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
+use AppBundle\Service\User\UserManager;
+use Requestum\ApiBundle\Event\FormActionEvent;
 
 /**
  * Class UserListener
  */
 class UserListener
 {
-    /**
-     * @var UserPasswordEncoder
-     */
-    private $passwordEncoder;
 
     /**
-     * UserEntityListener constructor.
-     * @param UserPasswordEncoder $passwordEncoder
+     * @var UserManager
      */
-    public function __construct(UserPasswordEncoder $passwordEncoder)
+    private $userManager;
+
+    /**
+     * UserListener constructor.
+     * @param UserManager $userManager
+     */
+    public function __construct(UserManager $userManager)
     {
-        $this->passwordEncoder = $passwordEncoder;
-    }
-
-
-    /**
-     * @param User $user
-     */
-    public function prePersist(User $user)
-    {
-        $this->encodePassword($user);
+        $this->userManager = $userManager;
     }
 
     /**
-     * @param User $user
-     * @param PreUpdateEventArgs $args
+     * @param FormActionEvent $event
      */
-    public function preUpdate(User $user, PreUpdateEventArgs $args)
+    public function updatePassword(FormActionEvent $event)
     {
-        if ($args->hasChangedField('password')) {
-            $this->encodePassword($user);
-        }
-    }
+        /** @var User $user */
+        $user = $event->getSubject();
 
-
-    /**
-     * @param User $user
-     */
-    private function encodePassword(User $user)
-    {
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
-        $user
-            ->setPassword($encodedPassword)
-            ->setConfirmationToken(null)
-            ->eraseCredentials();
+        $this->userManager->updatePassword($user);
     }
 }
