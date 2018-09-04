@@ -5,20 +5,27 @@ imports:
 services:
     app.user_listener:
         class: AppBundle\EventListener\UserListener
-        arguments: ['@app.service.user_manager']
+        arguments:
+            - '@app.service.user_manager'
         tags:
-        - { name: kernel.event_listener, event: action.update_password.before_save_user, method: updatePassword }
+            - { name: kernel.event_listener, event: action.update_password.before_save_user, method: updatePassword }
 
     app.upload_listener:
         class: AppBundle\EventListener\UploadListener
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments:
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
 
     app.service.reset_password:
         class: AppBundle\Service\ResetPassword\ResetPassword
-        arguments: ["@doctrine.orm.entity_manager", "@requestum_email_sender", "%default_email_from%", "%reset_password_link_template%"]
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@requestum_email_sender'
+            - '%default_email_from%'
+            - '%reset_password_link_template%'
 
     app.service.user_manager:
         class: AppBundle\Service\User\UserManager
-        arguments: ['@security.user_password_encoder.generic']
+        arguments:
+            - '@security.user_password_encoder.generic'

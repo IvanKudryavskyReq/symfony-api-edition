@@ -27,7 +27,7 @@ services:
         parent: core.action.abstract
         abstract: true
         calls:
-        - ['setOptions', [{'before_save_events': ['action.update_password.before_save_user']}]]
+            - ['setOptions', [{'before_save_events': ['action.update_password.before_save_user']}]]
 
     action.user.create:
         parent: action.user.encode_password
@@ -50,24 +50,24 @@ services:
             - AppBundle\Entity\User
 
     action.user.forgot_password:
-            parent: core.action.abstract
-            class: AppBundle\Action\User\ForgotPasswordAction
-            arguments:
-                - AppBundle\Entity\User
+        parent: core.action.abstract
+        class: AppBundle\Action\User\ForgotPasswordAction
+        arguments:
+            - AppBundle\Entity\User
 
     action.user.reset_password:
-            parent: action.user.update
-            arguments:
-                - AppBundle\Entity\User
-                - AppBundle\Form\User\PasswordType
-            calls:
-                - [setOptions, [{fetch_field: 'confirmationToken', access_attribute: null}]]
+        parent: action.user.update
+        arguments:
+            - AppBundle\Entity\User
+            - AppBundle\Form\User\PasswordType
+        calls:
+            - [setOptions, [{fetch_field: 'confirmationToken', access_attribute: null}]]
 
     action.user.social_login:
-            parent: core.action.abstract
-            class: AppBundle\Action\User\SocialLoginAction
-            arguments:
-                - AppBundle\Entity\User
+        parent: core.action.abstract
+        class: AppBundle\Action\User\SocialLoginAction
+        arguments:
+            - AppBundle\Entity\User
 
     action.user.change_password:
         parent: action.user.encode_password

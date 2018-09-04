@@ -3,13 +3,11 @@
 namespace AppBundle\Service\User;
 
 use AppBundle\Entity\User;
-use Requestum\ApiBundle\Event\FormActionEvent;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /** Class UserManager */
 class UserManager
 {
-
     /**
      * @var UserPasswordEncoderInterface
      */

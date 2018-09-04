@@ -6,7 +6,6 @@ use AppBundle\DataFixtures\ORM\LoadSiteData;
 use AppBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\Workflow\Event\Event;
 
 /**
  * Class LoadUserData
@@ -32,16 +31,16 @@ class LoadUserData extends Fixture
 
         $manager->persist($user);
 
-        $user1 = new User();
-        $user1->setEmail('kirill@gmail.com');
-        $user1->setName('Kirill');
-        $user1->setEnabled(true);
-        $user1->setPlainPassword(123);
-        $this->addReference('user-kirill', $user1);
+        $user = new User();
+        $user->setEmail('kirill@gmail.com');
+        $user->setName('Kirill');
+        $user->setEnabled(true);
+        $user->setPlainPassword(123);
+        $this->addReference('user-kirill', $user);
 
-        $userManager->updatePassword($user1);
+        $userManager->updatePassword($user);
 
-        $manager->persist($user1);
+        $manager->persist($user);
 
         $manager->flush();
     }

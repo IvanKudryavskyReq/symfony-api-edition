@@ -104,6 +104,9 @@ class UserTest extends RestCrudTestCase
 
         $this->getClient()->getContainer()->get('doctrine.orm.default_entity_manager')->flush();
 
+        $headers = $this->headers;
+        $headers['HTTP_Authorization'] = 'Bearer AccessToken_For_Kirill';
+
         $data = [
             'currentPassword' => '123',
             'plainPassword' => [
@@ -112,14 +115,43 @@ class UserTest extends RestCrudTestCase
             ],
         ];
 
-        $headers = $this->headers;
-        $headers['HTTP_Authorization'] = 'Bearer AccessToken_For_Kirill';
-
         $this->getClient()->request(Request::METHOD_PATCH, $this->url.'/'.$user->getId().'/change-password', $data, [], $headers);
 
         static::assertEquals(200, $this->getClient()->getResponse()->getStatusCode());
-
         static::assertPassword($user, '321');
+
+
+        // 422 - Incorrect current password
+        $data = [
+            'currentPassword' => '111',
+            'plainPassword' => [
+                'first' => '456',
+                'second' => '456',
+            ],
+        ];
+
+        $this->getClient()->request(Request::METHOD_PATCH, $this->url.'/'.$user->getId().'/change-password', $data, [], $headers);
+
+        static::assertEquals(422, $this->getClient()->getResponse()->getStatusCode());
+
+
+        // 422 - The first and second plain password are different
+        $data = [
+            'currentPassword' => '321',
+            'plainPassword' => [
+                'first' => '321',
+                'second' => '223',
+            ],
+        ];
+        $this->getClient()->request(Request::METHOD_PATCH, $this->url.'/'.$user->getId().'/change-password', $data, [], $headers);
+
+        static::assertEquals(422, $this->getClient()->getResponse()->getStatusCode());
+
+
+        // 404
+        $this->getClient()->request(Request::METHOD_PATCH, $this->url.'/99999999/change-password', $data, [], $headers);
+
+        static::assertEquals(404, $this->getClient()->getResponse()->getStatusCode());
     }
 
     private function assertPassword(User $user, $password)

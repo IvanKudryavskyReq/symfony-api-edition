@@ -1,6 +1,7 @@
 <?php
+
 namespace AppBundle\EventListener;
-use AppBundle\Entity\User;
+
 use AppBundle\Service\User\UserManager;
 use Requestum\ApiBundle\Event\FormActionEvent;
 
@@ -29,9 +30,6 @@ class UserListener
      */
     public function updatePassword(FormActionEvent $event)
     {
-        /** @var User $user */
-        $user = $event->getSubject();
-
-        $this->userManager->updatePassword($user);
+        $this->userManager->updatePassword($event->getSubject());
     }
 }
