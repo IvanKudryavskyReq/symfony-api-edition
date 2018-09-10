@@ -1,0 +1,5 @@
+services:
+    auth.social_provider.googleplus:
+        class: AuthGooglePlusBundle\Provider\GooglePlusProvider
+        tags:
+        - { name: auth.social_provider}

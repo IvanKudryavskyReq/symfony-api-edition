@@ -45,7 +45,6 @@ class UserListener
         }
     }
 
-
     /**
      * @param User $user
      */

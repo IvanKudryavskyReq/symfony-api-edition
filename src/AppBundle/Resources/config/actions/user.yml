@@ -17,12 +17,6 @@ services:
         arguments:
             - AppBundle\Entity\User
 
-    action.user.fetch_account:
-        parent: core.action.abstract
-        class: AppBundle\Action\User\FetchAccountAction
-        arguments:
-            - AppBundle\Entity\User
-
     action.user.create:
         parent: core.action.abstract
         class: Requestum\ApiBundle\Action\CreateAction
@@ -56,9 +50,3 @@ services:
                 - AppBundle\Form\User\PasswordType
             calls:
                 - [setOptions, [{fetch_field: 'confirmationToken', access_attribute: null}]]
-
-    action.user.social_login:
-            parent: core.action.abstract
-            class: AppBundle\Action\User\SocialLoginAction
-            arguments:
-                - AppBundle\Entity\User

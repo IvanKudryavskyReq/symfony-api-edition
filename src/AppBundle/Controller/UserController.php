@@ -140,7 +140,7 @@ class UserController extends BaseController
      */
     public function deleteAction()
     {
-            return $this->action("action.user.delete");
+        return $this->action("action.user.delete");
     }
 
     /**

@@ -10,6 +10,16 @@ services:
         tags:
             - { name: doctrine.orm.entity_listener }
 
+    user_subscriber:
+        class: AppBundle\Subscriber\UserSubscriber
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@core.util.error_factory'
+            - '@validator'
+
+        tags:
+            - { name: kernel.event_subscriber }
+
     app.upload_listener:
         class: AppBundle\EventListener\UploadListener
         arguments: ["@doctrine.orm.entity_manager"]

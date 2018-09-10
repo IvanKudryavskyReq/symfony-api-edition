@@ -19,16 +19,19 @@ class TokenController extends BaseController
      *         200 = "Returned when successful"
      *     },
      *     parameters={
-     *          {"name"="grant_type", "dataType"="string", "required"=true, "description"="Which grant you need. Can be `token`, `password`, `client_credentials` and `refresh_token`"},
+     *          {"name"="grant_type", "dataType"="string", "required"=true, "description"="Which grant you need. Can be `token`, `password`, `client_credentials`, `refresh_token` and `urn:requestum:social_grant_type`"},
      *          {"name"="client_id", "dataType"="string", "required"=true, "description"="Client id for Api"},
      *          {"name"="client_secret", "dataType"="string", "required"=true, "description"="Client secret for Api"},
      *          {"name"="username", "dataType"="string", "required"=true, "description"="User username"},
      *          {"name"="password", "dataType"="string", "required"=true, "description"="User password"},
+     *          {"name"="network", "dataType"="string", "required"=false, "description"="Social network name. Can be `facebook` and `googleplus`"},
+     *          {"name"="token", "dataType"="string", "required"=false, "description"="Social network authentication (OAuth) token"},
      *     },
      *     section = "Security",
      * )
      *
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function createAction(Request $request)

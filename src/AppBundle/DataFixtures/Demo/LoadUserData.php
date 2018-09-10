@@ -21,7 +21,8 @@ class LoadUserData extends AbstractFixture
     {
         $user = new User();
         $user->setEmail('artur@gmail.com');
-        $user->setName('Artur');
+        $user->setFirstName('Artur');
+        $user->setLastName('Smith');
         $user->setEnabled(true);
         $user->setPlainPassword(123);
         $this->addReference('user-artur', $user);
@@ -30,7 +31,8 @@ class LoadUserData extends AbstractFixture
 
         $user1 = new User();
         $user1->setEmail('kirill@gmail.com');
-        $user1->setName('Kirill');
+        $user1->setFirstName('Kirill');
+        $user1->setLastName('Smith');
         $user1->setEnabled(true);
         $user1->setPlainPassword(123);
         $this->addReference('user-kirill', $user1);

@@ -1,4 +1,12 @@
 services:
     auth.security.user_provider:
         class: AuthBundle\Security\UserProvider
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+    auth.grant_extension.social:
+        class: AuthBundle\OAuth\SocialGrantExtension
+        arguments:
+            - '@event_dispatcher'
+        tags:
+            - { name: fos_oauth_server.grant_extension, uri: "urn:requestum:social_grant_type" }

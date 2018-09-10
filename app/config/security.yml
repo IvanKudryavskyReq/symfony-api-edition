@@ -6,6 +6,7 @@ security:
         AppBundle\Entity\User: bcrypt
 
     role_hierarchy:
+        ROLE_USER:        ROLE_UNCOMPLETED_PROFILE
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
@@ -39,6 +40,8 @@ security:
 
     access_control:
         - { path: ^/api/users, method: POST, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/users/me, roles: [ROLE_USER, ROLE_UNCOMPLETED_PROFILE] }
         - { path: ^/api/users/.*/forgot-password, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/users/.*/reset-password, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/users.*, method: PATCH, role: ROLE_UNCOMPLETED_PROFILE }
         - { path: ^/api, role: ROLE_USER }

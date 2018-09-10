@@ -1,0 +1,5 @@
+services:
+    auth.social_provider.facebook:
+        class: AuthFacebookBundle\Provider\FacebookProvider
+        tags:
+            - { name: auth.social_provider}

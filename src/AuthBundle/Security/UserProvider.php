@@ -2,7 +2,6 @@
 
 namespace AuthBundle\Security;
 
-
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -14,7 +13,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class UserProvider implements UserProviderInterface
 {
-
     /**
      * @var EntityManager
      */
@@ -22,6 +20,7 @@ class UserProvider implements UserProviderInterface
 
     /**
      * UserProvider constructor.
+     *
      * @param EntityManager $em
      */
     public function __construct(EntityManager $em)
@@ -50,7 +49,6 @@ class UserProvider implements UserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-
         return $this->loadUserByUsername($user->getEmail());
     }
 

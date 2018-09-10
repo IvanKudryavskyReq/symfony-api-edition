@@ -24,6 +24,8 @@ class AppKernel extends Kernel
             new Requestum\ApiBundle\RequestumApiBundle(),
             new AuthBundle\AuthBundle(),
             new AppBundle\AppBundle(),
+            new AuthFacebookBundle\AuthFacebookBundle(),
+            new AuthGooglePlusBundle\AuthGooglePlusBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

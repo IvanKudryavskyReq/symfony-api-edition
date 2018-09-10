@@ -3,6 +3,7 @@
 namespace AuthBundle;
 
 use AuthBundle\DependencyInjection\Compiler\OverrideServiceCompilerPass;
+use AuthBundle\DependencyInjection\Compiler\SocialProviderCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -17,5 +18,6 @@ class AuthBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new OverrideServiceCompilerPass());
+        $container->addCompilerPass(new SocialProviderCompilerPass());
     }
 }

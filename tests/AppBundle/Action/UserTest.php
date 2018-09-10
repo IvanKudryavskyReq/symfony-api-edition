@@ -29,7 +29,8 @@ class UserTest extends RestCrudTestCase
         ]);
 
         $this->createItem([
-            'name' => 'test',
+            'firstName' => 'test',
+            'lastName' => 'test',
             'email' => 'test@toto.com',
             'plainPassword' => '123',
         ]);

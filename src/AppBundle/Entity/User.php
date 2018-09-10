@@ -14,7 +14,7 @@ use Requestum\ApiBundle\Rest\Metadata\Reference;
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\EntityListeners({"AppBundle\EventListener\UserListener"})
- * @UniqueEntity("email")
+ * @UniqueEntity("email", message="User with email {{ value }} already exist in the system.")
  */
 class User implements UserInterface
 {
@@ -33,19 +33,29 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @var string User name
+     * @var string First name
      *
      * @ORM\Column(type="string", nullable=true)
      * @Assert\NotBlank
      *
      * @Groups("default")
      */
-    private $name = '';
+    private $firstName = '';
+
+    /**
+     * @var string Last name
+     *
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank
+     *
+     * @Groups("default")
+     */
+    private $lastName = '';
 
     /**
      * @var string User email
      *
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string", unique=true, nullable=true)
      * @Assert\NotBlank
      * @Assert\Email()
      *
@@ -84,6 +94,23 @@ class User implements UserInterface
      */
     protected $confirmationToken;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $socialId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $socialNetwork;
+
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->enabled = true;
@@ -100,17 +127,17 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getFirstName()
     {
-        return $this->name;
+        return $this->firstName;
     }
 
     /**
-     * @param string $name
+     * @param string $firstName
      */
-    public function setName($name)
+    public function setFirstName($firstName)
     {
-        $this->name = $name;
+        $this->firstName = $firstName;
     }
 
     /**
@@ -119,6 +146,26 @@ class User implements UserInterface
     public function getUsername()
     {
         return $this->email;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     *
+     * @return self
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
     }
 
     /**
@@ -134,6 +181,9 @@ class User implements UserInterface
      */
     public function getRoles()
     {
+        if (!$this->email) {
+            return ['ROLE_UNCOMPLETED_PROFILE'];
+        }
         return ['ROLE_USER'];
     }
 
@@ -237,6 +287,47 @@ class User implements UserInterface
     public function setConfirmationToken($confirmationToken = null)
     {
         $this->confirmationToken = $confirmationToken;
+
+        return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getSocialNetwork()
+    {
+        return $this->socialNetwork;
+    }
+
+    /**
+     * @param string $socialNetwork
+     *
+     * @return $this
+     */
+    public function setSocialNetwork($socialNetwork)
+    {
+        $this->socialNetwork = $socialNetwork;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSocialId()
+    {
+        return $this->socialId;
+    }
+
+    /**
+     * @param string $socialId
+     *
+     * @return $this
+     */
+    public function setSocialId($socialId)
+    {
+        $this->socialId = $socialId;
 
         return $this;
     }

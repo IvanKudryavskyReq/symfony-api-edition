@@ -19,7 +19,7 @@ class LoadClientData extends AbstractFixture
         $client = new Client();
         $client->setRandomId('20aa5tpwg04ks4w84o8cookswwccgkwko40gwcs0ws840wkssk');
         $client->setSecret('79fqd7qzbp8g8o8oggss48w4kwck4s4kccwwk8804ksowg8o');
-        $client->setAllowedGrantTypes(['client_credentials', 'token', 'refresh_token', 'password']);
+        $client->setAllowedGrantTypes(['client_credentials', 'token', 'refresh_token', 'password', 'urn:requestum:social_grant_type']);
         $client->setRedirectUris([]);
         $this->addReference('auth-client', $client);
         $manager->persist($client);
