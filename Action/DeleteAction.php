@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class DeleteAction.
  */
-class DeleteAction extends EntityAction
+class DeleteAction extends EntityAction implements SubResourceInterface
 {
     /**
      * @param Request $request

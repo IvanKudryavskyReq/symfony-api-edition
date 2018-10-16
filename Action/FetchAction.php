@@ -2,6 +2,7 @@
 
 namespace Requestum\ApiBundle\Action;
 
+use Requestum\ApiBundle\Action\Extension\SubResourceInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class FetchAction.
  */
-class FetchAction extends EntityAction
+class FetchAction extends EntityAction implements SubResourceInterface
 {
     /**
      * @param Request $request

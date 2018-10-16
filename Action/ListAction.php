@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Class ListAction.
  */
-class ListAction extends EntityAction
+class ListAction extends EntityAction implements SubResourceInterface
 {
     /**
      * @param Request $request
