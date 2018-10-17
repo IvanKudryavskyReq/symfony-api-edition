@@ -31,7 +31,7 @@ abstract class EntityAction extends BaseAction
     /**
      * @var EntityContextData[]
      */
-    protected $arrayContextData;
+    protected $arrayContextData = [];
 
     /**
      * @var FiltersExtensionInterface[]
@@ -225,7 +225,7 @@ abstract class EntityAction extends BaseAction
     {
         $request = $requestStack->getCurrentRequest();
         if ($request->get($this->options['parent_fetch_field']) && $entity = $this->getDoctrine()->getRepository($params['context'])->find($request->get($this->options['parent_fetch_field']))) {
-            $entityContextData = new EntityContextData($entity);
+            $entityContextData = new EntityContextData($entity, $this->get('core.filter.entity_context_helper'));
             $this->addContextData($params['context_field'], $entityContextData);
         } else {
             throw new NotFoundHttpException('Context "' . $params['context_field'] . '" not found');
